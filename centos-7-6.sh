@@ -1,4 +1,4 @@
-VM_CONFIG_PATH=/home/vagrant/Web/vm/centos-7-6/config
+VM_CONFIG_PATH=/home/vagrant/vm/centos-7-6/config
 
 echo '==> Setting time zone'
 
