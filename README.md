@@ -74,8 +74,8 @@ In host terminal:
 
 ```bash
 mkdir -p ~/vm && cd ~/vm
-git clone https://github.com/stemar/vagrant-ubuntu-18-04.git ubuntu-18-04
-tree -F --dirsfirst -I ".git" ~/vm
+git clone https://github.com/stemar/vagrant-centos-7-6.git centos-7-6
+tree -aF --dirsfirst -I ".git" ~/vm
 ```
 
 ```console
@@ -314,6 +314,8 @@ I override some `httpd.conf` lines without editing `httpd.conf` itself.
 
 ```apache
 # Override /etc/httpd/conf/httpd.conf
+# User apache
+# Group apache
 User vagrant
 Group vagrant
 EnableSendfile Off
@@ -355,14 +357,14 @@ ServerName localhost
         AllowOverride All
         Require all granted
     </Directory>
-    # /var/log/apache2
-    ErrorLog ${APACHE_LOG_DIR}/example.com-error.log
-    CustomLog ${APACHE_LOG_DIR}/example.com-access.log combined
+    # /var/log/httpd
+    ErrorLog /etc/httpd/logs/error_log/example.com-error.log
+    CustomLog /etc/httpd/logs/access_log/example.com-access.log combined
 </VirtualHost>
 ```
 
 I use [VirtualDocumentRoot](https://httpd.apache.org/docs/2.4/mod/mod_vhost_alias.html)
-to access all my domain dirtrees from `~/Web` with `http://example.com.localhost:8001`
+to access all my domain dirtrees from `~/projects` with `http://example.com.localhost:8001`
 
 ```console
 ~/projects
@@ -385,9 +387,9 @@ You can create `<VirtualHost *:80>` entries the regular way too for example:
         AllowOverride All
         Require all granted
     </Directory>
-    # /var/log/apache2
-    ErrorLog ${APACHE_LOG_DIR}/example.com-error.log
-    CustomLog ${APACHE_LOG_DIR}/example.com-access.log combined
+    # /var/log/httpd
+    ErrorLog /etc/httpd/logs/error_log/example.com-error.log
+    CustomLog /etc/httpd/logs/access_log/example.com-access.log combined
 </VirtualHost>
 ```
 
