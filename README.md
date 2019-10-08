@@ -122,7 +122,7 @@ Ex.: if the host machine has `~/projects` a.k.a. `/Users/stemar/projects`,
 the guest machine will have `~/projects`, a.k.a. `/home/vagrant/projects`.
 
 ```ruby
-projects_path = "projects"
+projects_path = ENV["PROJECTS_PATH"] || "projects"
 Vagrant.require_version ">= 2.0.0"
 Vagrant.configure("2") do |config|
   config.vm.define "centos-7-6"
@@ -485,6 +485,12 @@ In host terminal:
 ```bash
 cd ~/vm/centos-7-6
 vagrant up --provision
+```
+
+Or if you have a different projects path under your home directory.
+
+```bash
+PROJECTS_PATH="Web" vagrant up --provision
 ```
 
 !! You might see many red line warnings from `yum` during provisioning but let the script finish, they are not fatal errors.
