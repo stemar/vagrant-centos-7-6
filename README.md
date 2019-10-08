@@ -122,7 +122,9 @@ Ex.: if the host machine has `~/projects` a.k.a. `/Users/stemar/projects`,
 the guest machine will have `~/projects`, a.k.a. `/home/vagrant/projects`.
 
 ```ruby
+# Projects path under home directory on host machine. Ex.: ~/projects
 projects_path = ENV["PROJECTS_PATH"] || "projects"
+
 Vagrant.require_version ">= 2.0.0"
 Vagrant.configure("2") do |config|
   config.vm.define "centos-7-6"
@@ -145,7 +147,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision :file, source: "~/.ssh", destination: "$HOME/.ssh"
   config.vm.provision :file, source: "~/.gitconfig", destination: "$HOME/.gitconfig"
   # Provision bash script
-  config.vm.provision :shell, path: "centos-7-6.sh"
+  config.vm.provision :shell, path: "centos-7-6.sh", env: {"CONFIG_PATH" => "/home/vagrant/vm/centos-7-6/config"}
 end
 ```
 
@@ -163,7 +165,7 @@ I forward the ports to 8001 and 33061 because I already use 8000 and 33060 in an
 ### Provision file centos-7-6.sh
 
 ```bash
-VM_CONFIG_PATH=/home/vagrant/vm/centos-7-6/config
+# CONFIG_PATH set as environment variable
 
 echo '==> Setting time zone'
 
@@ -184,7 +186,7 @@ alias ll="ls -lAFh"
 
 echo '==> Setting Git 2.18 repository'
 
-cp $VM_CONFIG_PATH/WANdisco-git.repo /etc/yum.repos.d/WANdisco-git.repo
+cp $CONFIG_PATH/WANdisco-git.repo /etc/yum.repos.d/WANdisco-git.repo
 rpm --import http://opensource.wandisco.com/RPM-GPG-KEY-WANdisco
 
 echo '==> Installing Git'
@@ -197,7 +199,7 @@ yum -q -y install httpd mod_ssl openssl
 
 echo '==> Setting MariaDB 10.3 repository'
 
-cp $VM_CONFIG_PATH/MariaDB.repo /etc/yum.repos.d/MariaDB.repo
+cp $CONFIG_PATH/MariaDB.repo /etc/yum.repos.d/MariaDB.repo
 rpm --import https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 
 echo '==> Installing MariaDB'
@@ -240,19 +242,19 @@ fi
 echo '==> Configuring Apache'
 
 # Localhost
-cp $VM_CONFIG_PATH/localhost.conf /etc/httpd/conf.d/localhost.conf
+cp $CONFIG_PATH/localhost.conf /etc/httpd/conf.d/localhost.conf
 
 # VirtualHost(s)
-cp $VM_CONFIG_PATH/virtualhost.conf /etc/httpd/conf.d/virtualhost.conf
+cp $CONFIG_PATH/virtualhost.conf /etc/httpd/conf.d/virtualhost.conf
 
 # Adminer
-cp $VM_CONFIG_PATH/adminer.conf /etc/httpd/conf.d/adminer.conf
-cp $VM_CONFIG_PATH/adminer.php /usr/share/adminer/adminer.php
+cp $CONFIG_PATH/adminer.conf /etc/httpd/conf.d/adminer.conf
+cp $CONFIG_PATH/adminer.php /usr/share/adminer/adminer.php
 ESCAPED_ADMINER_VERSION=`echo $ADMINER_VERSION | sed 's/\./\\\\./g'`
 sed -i 's/ADMINER_VERSION/'$ESCAPED_ADMINER_VERSION'/' /usr/share/adminer/adminer.php
 
 # PHP.ini
-cp $VM_CONFIG_PATH/php.ini.htaccess /var/www/.htaccess
+cp $CONFIG_PATH/php.ini.htaccess /var/www/.htaccess
 
 echo '==> Starting Apache'
 
@@ -487,9 +489,10 @@ cd ~/vm/centos-7-6
 vagrant up --provision
 ```
 
-Or if you have a different projects path under your home directory.
+Or if you have a different projects path under your home directory:
 
 ```bash
+cd ~/vm/centos-7-6
 PROJECTS_PATH="Web" vagrant up --provision
 ```
 
