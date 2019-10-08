@@ -147,7 +147,6 @@ Vagrant.configure("2") do |config|
   # Provision bash script
   config.vm.provision :shell, path: "centos-7-6.sh"
 end
-end
 ```
 
 #### Forwarded ports
