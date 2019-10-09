@@ -243,20 +243,30 @@ HTTP/1.1 404 Not Found
 ...
 ```
 
+In host browser:
+
+```input
+http://localhost:8001
+```
+
 #### Why 404 Not Found?
 
 In `/etc/httpd/conf.d/welcome.conf`, it shows that when there is no `/var/www/html/index.html`, 
-HTTP code `403 Forbidden` is returned with the content of `/usr/share/httpd/noindex/index.html`, the ["Testing 123.." page](https://www.atlantic.net/community/wp-content/uploads/2015/06/anet-install-lamp-centos-7-01.png).
+HTTP code `403 Forbidden` is returned with the content of `/usr/share/httpd/noindex/index.html`, 
+the ["Testing 123.." page](https://www.atlantic.net/community/wp-content/uploads/2015/06/anet-install-lamp-centos-7-01.png).
 
-However, we defined `VirtualHost`s in `virtualhost.conf` without defining a page at the root of localhost, so we get HTTP code `404 Not Found`.
+However, we defined `VirtualHost`s in `virtualhost.conf` without defining a page at the root of localhost, 
+so we get HTTP code `404 Not Found`.
 
-In host browser:
+### Check your domain
+
+In host browser: (replace `example.com` with your domain)
 
 ```input
 http://example.com.localhost:8001
 ```
 
-You see the `example.com` home page.
+You see the home page.
 
 ### Check Adminer
 
