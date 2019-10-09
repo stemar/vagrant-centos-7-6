@@ -1,4 +1,5 @@
 # CONFIG_PATH set as environment variable
+# PROJECTS_PATH set as environment variable
 
 echo '==> Setting time zone'
 
@@ -74,11 +75,16 @@ fi
 
 echo '==> Configuring Apache'
 
+# Log file permissions
+usermod vagrant -G apache
+chown -R root:apache /var/log/httpd
+
 # Localhost
 cp $CONFIG_PATH/localhost.conf /etc/httpd/conf.d/localhost.conf
 
 # VirtualHost(s)
 cp $CONFIG_PATH/virtualhost.conf /etc/httpd/conf.d/virtualhost.conf
+sed -i 's#PROJECTS_PATH#'$PROJECTS_PATH'#' /etc/httpd/conf.d/virtualhost.conf
 
 # Adminer
 cp $CONFIG_PATH/adminer.conf /etc/httpd/conf.d/adminer.conf
