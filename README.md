@@ -31,7 +31,7 @@ vagrant ssh
     - Disable the default `/vagrant` synchronized to `Vagrantfile`'s location.
 - Use Bash for provisioning.
     - Every developer will know Bash; not every developer will know Ansible, Chef and Puppet.
-    - You copy/paste the Bash commands if you configured a VirtualBox manually without Vagrant.
+    - You could copy/paste the Bash commands if you configured a VirtualBox manually without Vagrant.
 - Use MariaDB and Adminer without a password for username `root`.
 - Use _repository_ `.repo` files outside the VM to fetch and install updated Git and MariaDB versions inside the VM.
 - Use Apache `.conf` files outside the VM to customize the web server configuration inside the VM.
