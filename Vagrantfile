@@ -7,7 +7,7 @@ Vagrant.configure("2") do |config|
     vb.memory = "3072" # 3GB RAM
     vb.cpus = 1
   end
-  # vagrant@ubuntu-18-04
+  # vagrant@centos-7-6
   config.vm.hostname = "centos-7-6"
   # Synchronize projects and vm directories
   config.vm.synced_folder "~/#{projects_path}", "/home/vagrant/#{projects_path}", owner: "vagrant", group: "vagrant"
