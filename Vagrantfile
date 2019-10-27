@@ -26,7 +26,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision :file, source: "~/.gitconfig", destination: "$HOME/.gitconfig"
   # Provision bash script
   config.vm.provision :shell, path: "centos-7-6.sh", env: {
-    "CONFIG_PATH"   => "/home/vagrant/vm/centos-7-6/config",
+    "CONFIG_PATH" => "/home/vagrant/vm/centos-7-6/config",
     "PROJECTS_PATH" => projects_path,
     "PORT_80" => port_80,
     "PORT_3306" => port_3306,
