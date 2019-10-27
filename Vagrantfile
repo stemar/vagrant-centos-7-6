@@ -29,7 +29,6 @@ Vagrant.configure("2") do |config|
     "CONFIG_PATH" => "/home/vagrant/vm/centos-7-6/config",
     "PROJECTS_PATH" => projects_path,
     "PORT_80" => port_80,
-    "PORT_3306" => port_3306,
     "ADMINER_VERSION" => adminer_version
   }
 end

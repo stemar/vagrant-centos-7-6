@@ -131,7 +131,8 @@ see [PHP configuration settings](http://php.net/manual/en/configuration.changes.
 
 ## Provision centos-7-6
 
-> You will see many red line warnings from `yum` during provisioning but let the script finish, most of them are not fatal errors.
+> You will see many red line warnings from `yum` during provisioning but let the script finish,
+> most of them are not fatal errors.
 
 You can prepend the `vagrant up` command with these environment variables or
 you can edit `Vagrantfile`.
