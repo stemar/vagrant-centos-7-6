@@ -10,10 +10,10 @@ Make a Vagrant box with CentOS 7.6 LAMP stack, plus configure it for development
 In host terminal:
 
 ```bash
-mkdir -p ~/vm && cd ~/vm
+mkdir -p ~/vm && cd $_
 git clone https://github.com/stemar/vagrant-centos-7-6.git centos-7-6
 cd ~/vm/centos-7-6
-PROJECTS_PATH="projects" vagrant up --provision
+vagrant up --provision
 vagrant ssh
 ```
 
@@ -88,7 +88,7 @@ cat ~/.gitconfig
 In host terminal:
 
 ```bash
-mkdir -p ~/vm && cd ~/vm
+mkdir -p ~/vm && cd $_
 git clone https://github.com/stemar/vagrant-centos-7-6.git centos-7-6
 ```
 
@@ -116,7 +116,7 @@ Of course, you would have a `root` password on a server but this is a virtual ma
 As of version 4.6.3, Adminer is blocking any user with no password.
 To allow `root` with no password, `config/adminer.php` is created.
 
-`ADMINER_VERSION` will be substituted by a `sed` command in the `centos-7-6.sh` provision script.
+> The constant`ADMINER_VERSION` will be substituted by a `sed` command in the `centos-7-6.sh` provision script.
 
 ### php.ini file
 
@@ -126,11 +126,19 @@ We don't want to edit `php.ini` directly but we want to add a development-relate
 > ([except when PHP is installed as CGI](http://php.net/manual/en/configuration.file.per-user.php)
 > which is not the case here).
 
-We have to do it with `.htaccess` at the `/var/www` level; see [PHP configuration settings](http://php.net/manual/en/configuration.changes.php)
+We have to do it with `.htaccess` at the `/var/www` level;
+see [PHP configuration settings](http://php.net/manual/en/configuration.changes.php)
 
 ## Provision centos-7-6
 
-Edit the environment variable `PROJECTS_PATH` value with your own path name under your home directory.
+> You will see many red line warnings from `yum` during provisioning but let the script finish, most of them are not fatal errors.
+
+You can prepend the `vagrant up` command with these environment variables or
+you can edit `Vagrantfile`.
+
+### PROJECTS_PATH
+
+Add the environment variable `PROJECTS_PATH` with your own path name under your home directory.
 Name it the same name to reduce confusion.
 Ex.: if the host machine has `~/projects` a.k.a. `/Users/stemar/projects`,
 the guest machine will have `~/projects`, a.k.a. `/home/vagrant/projects`.
@@ -142,7 +150,29 @@ cd ~/vm/centos-7-6
 PROJECTS_PATH="projects" vagrant up --provision
 ```
 
-> You might see many red line warnings from `yum` during provisioning but let the script finish, most of them are not fatal errors.
+### PORT_80
+
+Add the environment variable `PORT_80` with a port number to redirect to.
+Ex.: redirect port 80 to port 8001.
+
+In host terminal:
+
+```bash
+cd ~/vm/centos-7-6
+PORT_80=8001 vagrant up --provision
+```
+
+### PORT_3306
+
+Add the environment variable `PORT_3306` with a port number to redirect to.
+Ex.: redirect port 3306 to port 33061.
+
+In host terminal:
+
+```bash
+cd ~/vm/centos-7-6
+PORT_80=8001 PORT_3306=33061 vagrant up --provision
+```
 
 ### If you get this error after VirtualBox Guest Additions plugin changed versions
 
@@ -192,7 +222,7 @@ vagrant ssh
 
 In guest terminal:
 
-```console
+```
 [vagrant@centos-7-6 ~]$
 ```
 
@@ -233,13 +263,25 @@ cat /etc/httpd/conf.d/virtualhost.conf
 cat /etc/httpd/conf.d/adminer.conf
 httpd -D DUMP_VHOSTS
 apachectl configtest
+```
+```
+AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 127.0.0.1. Set the 'ServerName' directive globally to suppress this message
+```
+
+No big deal.
+
+> It allows us to see the "Testing 123.." page for localhost.  
+> If we set the 'ServerName' directive globally,
+> we get a HTTP code 404 Not Found.
+
+```bash
 curl -I localhost
 ```
 
 Result:
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 403 Forbidden
 ...
 ```
 
@@ -249,18 +291,17 @@ In host browser:
 http://localhost:8001
 ```
 
-#### Why 404 Not Found?
+You see the "Testing 123.." page.
 
-In `/etc/httpd/conf.d/welcome.conf`, it shows that when there is no `/var/www/html/index.html`, 
-HTTP code `403 Forbidden` is returned with the content of `/usr/share/httpd/noindex/index.html`, 
-the ["Testing 123.." page](https://www.atlantic.net/community/wp-content/uploads/2015/06/anet-install-lamp-centos-7-01.png).
-
-However, we defined `VirtualHost`s in `virtualhost.conf` without defining a page at the root of localhost, 
-so we get HTTP code `404 Not Found`.
+> In `/etc/httpd/conf.d/welcome.conf`, it says that when there is no `/var/www/html/index.html`,
+> HTTP code `403 Forbidden` is returned with the content of `/usr/share/httpd/noindex/index.html`,
+> the "Testing 123.." page.
 
 ### Check your domain
 
-In host browser: (replace `example.com` with your domain)
+Ex.: Replace `example.com` with your domain and the port number with your custom redirect number.
+
+In host browser:
 
 ```input
 http://example.com.localhost:8001

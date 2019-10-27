@@ -1,6 +1,3 @@
-# CONFIG_PATH set as environment variable
-# PROJECTS_PATH set as environment variable
-
 echo '==> Setting time zone'
 
 timedatectl set-timezone Canada/Pacific
@@ -64,7 +61,6 @@ fi
 
 echo '==> Installing Adminer'
 
-ADMINER_VERSION=4.7.3
 if [ ! -d /usr/share/adminer ]; then
     mkdir -p /usr/share/adminer/plugins
     curl -LsS https://github.com/vrana/adminer/releases/download/v$ADMINER_VERSION/adminer-$ADMINER_VERSION.php -o /usr/share/adminer/adminer-$ADMINER_VERSION.php
@@ -85,12 +81,14 @@ cp $CONFIG_PATH/localhost.conf /etc/httpd/conf.d/localhost.conf
 # VirtualHost(s)
 cp $CONFIG_PATH/virtualhost.conf /etc/httpd/conf.d/virtualhost.conf
 sed -i 's#PROJECTS_PATH#'$PROJECTS_PATH'#' /etc/httpd/conf.d/virtualhost.conf
+sed -i 's#PORT_80#'$PORT_80'#' /etc/httpd/conf.d/virtualhost.conf
 
 # Adminer
 cp $CONFIG_PATH/adminer.conf /etc/httpd/conf.d/adminer.conf
+sed -i 's#PORT_80#'$PORT_80'#' /etc/httpd/conf.d/adminer.conf
 cp $CONFIG_PATH/adminer.php /usr/share/adminer/adminer.php
 ESCAPED_ADMINER_VERSION=`echo $ADMINER_VERSION | sed 's/\./\\\\./g'`
-sed -i 's/ADMINER_VERSION/'$ESCAPED_ADMINER_VERSION'/' /usr/share/adminer/adminer.php
+sed -i 's#ADMINER_VERSION#'$ESCAPED_ADMINER_VERSION'#' /usr/share/adminer/adminer.php
 
 # PHP.ini
 cp $CONFIG_PATH/php.ini.htaccess /var/www/.htaccess

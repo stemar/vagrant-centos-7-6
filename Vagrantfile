@@ -1,4 +1,8 @@
-projects_path = ENV["PROJECTS_PATH"] || "projects"
+projects_path = ENV["PROJECTS_PATH"] || "Web"
+port_80 = ENV["PORT_80"] || 8001
+port_3306 = ENV["PORT_3306"] || 33061
+adminer_version = ENV["ADMINER_VERSION"] || "4.7.3"
+
 Vagrant.require_version ">= 2.0.0"
 Vagrant.configure("2") do |config|
   config.vm.define "centos-7-6"
@@ -15,14 +19,17 @@ Vagrant.configure("2") do |config|
   # Disable default dir sync
   config.vm.synced_folder ".", "/vagrant", disabled: true
   # Apache: http://localhost:8001
-  config.vm.network :forwarded_port, guest: 80, host: 8001 # HTTP
-  config.vm.network :forwarded_port, guest: 3306, host: 33061 # MySQL
+  config.vm.network :forwarded_port, guest: 80, host: port_80 # HTTP
+  config.vm.network :forwarded_port, guest: 3306, host: port_3306 # MySQL
   # Copy SSH keys and Git config
   config.vm.provision :file, source: "~/.ssh", destination: "$HOME/.ssh"
   config.vm.provision :file, source: "~/.gitconfig", destination: "$HOME/.gitconfig"
   # Provision bash script
   config.vm.provision :shell, path: "centos-7-6.sh", env: {
     "CONFIG_PATH"   => "/home/vagrant/vm/centos-7-6/config",
-    "PROJECTS_PATH" => projects_path
+    "PROJECTS_PATH" => projects_path,
+    "PORT_80" => port_80,
+    "PORT_3306" => port_3306,
+    "ADMINER_VERSION" => adminer_version
   }
 end
