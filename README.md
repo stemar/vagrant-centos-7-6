@@ -175,6 +175,18 @@ cd ~/vm/centos-7-6
 PORT_80=8001 PORT_3306=33061 vagrant up --provision
 ```
 
+### ADMINER_VERSION
+
+Add the environment variable `ADMINER_VERSION` with a version number.
+Ex.: use version 4.7.4
+
+In host terminal:
+
+```bash
+cd ~/vm/centos-7-6
+ADMINER_VERSION=4.7.4 vagrant up --provision
+```
+
 ### If you get this error after VirtualBox Guest Additions plugin changed versions
 
 ```
