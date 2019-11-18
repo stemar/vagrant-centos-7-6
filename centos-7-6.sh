@@ -106,4 +106,6 @@ echo $(git --version)
 echo $(httpd -V | head -n1)
 echo $(mysql -V)
 echo $(php -v | head -n1)
+echo $(python --version)
+echo $(python3 --version)
 echo Adminer $ADMINER_VERSION
