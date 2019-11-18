@@ -11,9 +11,7 @@ rm -rf /var/cache/yum
 echo '==> Installing Linux tools'
 
 yum -q -y install nano tree zip unzip whois
-echo '
-alias ll="ls -lAFh"
-' | tee -a /home/vagrant/.bashrc > /dev/null
+cp $CONFIG_PATH/bashrc /home/vagrant/.bashrc
 
 echo '==> Setting Git 2.18 repository'
 
@@ -52,12 +50,6 @@ yum -q -y install php php-common \
     php-bcmath php-devel php-gd php-imap php-intl php-ldap \
     php-mbstring php-pecl-mcrypt php-mysqlnd php-opcache php-pdo php-pear \
     php-pecl-xdebug php-pspell php-soap php-tidy php-xml php-xmlrpc
-
-echo '==> Installing Composer (globally)'
-
-if [ ! -f /usr/local/bin/composer ]; then
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --quiet
-fi
 
 echo '==> Installing Adminer'
 
