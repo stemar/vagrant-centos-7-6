@@ -1,2 +1,2 @@
-alias ll="ls -lAFh"
 export HISTCONTROL=ignoreboth:erasedups
+alias ll="ls -lAFh"
