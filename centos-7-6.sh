@@ -12,6 +12,7 @@ echo '==> Installing Linux tools'
 
 yum -q -y install nano tree zip unzip whois
 cp $CONFIG_PATH/bashrc /home/vagrant/.bashrc
+chown vagrant:vagrant /home/vagrant/.bashrc
 
 echo '==> Setting Git 2.18 repository'
 
