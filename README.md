@@ -116,8 +116,6 @@ Of course, you would have a `root` password on a server but this is a virtual ma
 As of version 4.6.3, Adminer is blocking any user with no password.
 To allow `root` with no password, `config/adminer.php` is created.
 
-> The constant`ADMINER_VERSION` will be substituted by a `sed` command in the `centos-7-6.sh` provision script.
-
 ### php.ini file
 
 We don't want to edit `php.ini` directly but we want to add a development-related custom set of `php.ini` overrides.
@@ -173,18 +171,6 @@ In host terminal:
 ```bash
 cd ~/vm/centos-7-6
 PORT_80=8001 PORT_3306=33061 vagrant up --provision
-```
-
-### ADMINER_VERSION
-
-Add the environment variable `ADMINER_VERSION` with a version number.
-Ex.: use version 4.7.4
-
-In host terminal:
-
-```bash
-cd ~/vm/centos-7-6
-ADMINER_VERSION=4.7.4 vagrant up --provision
 ```
 
 ### If you get this error after VirtualBox Guest Additions plugin changed versions

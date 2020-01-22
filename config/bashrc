@@ -1,2 +1,3 @@
 export HISTCONTROL=ignoreboth:erasedups
 alias ll="ls -lAFh"
+alias nano="nano -cw"
