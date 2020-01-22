@@ -73,7 +73,7 @@ cp $CONFIG_PATH/localhost.conf /etc/httpd/conf.d/localhost.conf
 
 # VirtualHost(s)
 cp $CONFIG_PATH/virtualhost.conf /etc/httpd/conf.d/virtualhost.conf
-sed -i 's#PROJECTS_DIR#'$PROJECTS_DIR'#' /etc/httpd/conf.d/virtualhost.conf
+sed -i 's#SYNC_DIR#'$SYNC_DIR'#' /etc/httpd/conf.d/virtualhost.conf
 sed -i 's#PORT_80#'$PORT_80'#' /etc/httpd/conf.d/virtualhost.conf
 
 # Adminer

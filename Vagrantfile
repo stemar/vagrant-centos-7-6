@@ -1,4 +1,4 @@
-projects_dir = ENV["PROJECTS_DIR"] || "Code"
+sync_dir = ENV["SYNC_DIR"] || "Code"
 port_80 = ENV["PORT_80"] || 8001
 port_3306 = ENV["PORT_3306"] || 33061
 
@@ -14,7 +14,7 @@ Vagrant.configure("2") do |config|
   # vagrant@centos-7-6
   config.vm.hostname = "centos-7-6"
   # Synchronize projects and vm directories
-  config.vm.synced_folder "~/#{projects_dir}", "/home/vagrant/#{projects_dir}", owner: "vagrant", group: "vagrant"
+  config.vm.synced_folder "~/#{sync_dir}", "/home/vagrant/#{sync_dir}", owner: "vagrant", group: "vagrant"
   config.vm.synced_folder "~/vm", "/home/vagrant/vm", owner: "vagrant", group: "vagrant"
   # Disable default dir sync
   config.vm.synced_folder ".", "/vagrant", disabled: true
@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
   # Provision bash script
   config.vm.provision :shell, path: "centos-7-6.sh", env: {
     "CONFIG_PATH" => "/home/vagrant/vm/centos-7-6/config",
-    "PROJECTS_DIR" => projects_dir,
+    "SYNC_DIR" => sync_dir,
     "PORT_80" => port_80
   }
 end
