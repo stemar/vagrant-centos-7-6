@@ -7,6 +7,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "centos-7-6"
   config.vm.box = "bento/centos-7.6" # 64GB HDD
   config.vm.provider "virtualbox" do |vb|
+    vb.name = "centos-7-6"
     vb.memory = "3072" # 3GB RAM
     vb.cpus = 1
   end
