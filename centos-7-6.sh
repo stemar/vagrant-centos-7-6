@@ -65,7 +65,7 @@ fi
 echo '==> Configuring Apache'
 
 # Log file permissions
-usermod vagrant -G apache
+usermod -a -G vagrant apache
 chown -R root:apache /var/log/httpd
 
 # Localhost
